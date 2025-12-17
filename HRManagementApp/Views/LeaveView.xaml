@@ -1,0 +1,167 @@
+<UserControl x:Class="HRManagementApp.Views.LeaveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:HRManagementApp.ViewModels"
+             xmlns:core="clr-namespace:HRManagementApp.Core;assembly=HRManagementApp.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <UserControl.DataContext>
+        <vm:LeaveViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Button Grid.Row="0" 
+               Content="Add Leave Request" 
+               Command="{Binding AddLeaveRequestCommand}" 
+               HorizontalAlignment="Left"
+               Padding="15,8"
+               Background="#27AE60"
+               Foreground="White"
+               BorderThickness="0"
+               Cursor="Hand"
+               Margin="0,0,0,10"/>
+        
+        <DataGrid Grid.Row="1" 
+                 ItemsSource="{Binding LeaveRequests}" 
+                 SelectedItem="{Binding SelectedLeaveRequest}"
+                 AutoGenerateColumns="False"
+                 IsReadOnly="True"
+                 GridLinesVisibility="All"
+                 HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Employee" Binding="{Binding Employee.FullName}" Width="200"/>
+                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=d}" Width="100"/>
+                <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, StringFormat=d}" Width="100"/>
+                <DataGridTextColumn Header="Days" Binding="{Binding DaysRequested}" Width="60"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding LeaveType}" Width="100"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Border Grid.Row="2" 
+               BorderBrush="#BDC3C7" 
+               BorderThickness="1" 
+               Padding="15"
+               Margin="0,10,0,0"
+               Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Leave Request Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                
+                <TextBlock Grid.Row="1" Text="Employee:" Margin="0,5"/>
+                <ComboBox Grid.Row="2" 
+                         ItemsSource="{Binding Employees}" 
+                         SelectedValue="{Binding SelectedLeaveRequest.EmployeeId}"
+                         SelectedValuePath="Id"
+                         DisplayMemberPath="FullName"
+                         Margin="0,5"/>
+                
+                <TextBlock Grid.Row="3" Text="Start Date:" Margin="0,5"/>
+                <DatePicker Grid.Row="4" SelectedDate="{Binding SelectedLeaveRequest.StartDate}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="5" Text="End Date:" Margin="0,5"/>
+                <DatePicker Grid.Row="6" SelectedDate="{Binding SelectedLeaveRequest.EndDate}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="7" Text="Leave Type:" Margin="0,5"/>
+                <ComboBox Grid.Row="8" 
+                         SelectedItem="{Binding SelectedLeaveRequest.LeaveType}"
+                         Margin="0,5">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type core:LeaveType}">
+                            <core:LeaveType>Vacation</core:LeaveType>
+                            <core:LeaveType>Sick</core:LeaveType>
+                            <core:LeaveType>Personal</core:LeaveType>
+                            <core:LeaveType>Maternity</core:LeaveType>
+                            <core:LeaveType>Paternity</core:LeaveType>
+                            <core:LeaveType>Unpaid</core:LeaveType>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                
+                <TextBlock Grid.Row="9" Text="Status:" Margin="0,5"/>
+                <ComboBox Grid.Row="10" 
+                         SelectedItem="{Binding SelectedLeaveRequest.Status}"
+                         Margin="0,5">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type core:LeaveStatus}">
+                            <core:LeaveStatus>Pending</core:LeaveStatus>
+                            <core:LeaveStatus>Approved</core:LeaveStatus>
+                            <core:LeaveStatus>Rejected</core:LeaveStatus>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+                
+                <TextBlock Grid.Row="11" Text="Reason:" Margin="0,5"/>
+                <TextBox Grid.Row="12" 
+                        Text="{Binding SelectedLeaveRequest.Reason}" 
+                        Margin="0,5" 
+                        TextWrapping="Wrap" 
+                        AcceptsReturn="True" 
+                        MinHeight="60"/>
+                
+                <StackPanel Grid.Row="13" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                    <Button Content="Approve" 
+                           Command="{Binding ApproveLeaveCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#27AE60"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Reject" 
+                           Command="{Binding RejectLeaveCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#E74C3C"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Save" 
+                           Command="{Binding SaveLeaveRequestCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#3498DB"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Delete" 
+                           Command="{Binding DeleteLeaveRequestCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#E74C3C"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Cancel" 
+                           Command="{Binding CancelEditCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#95A5A6"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,153 @@
+<UserControl x:Class="HRManagementApp.Views.PayrollView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:HRManagementApp.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <UserControl.DataContext>
+        <vm:PayrollViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Employee:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox ItemsSource="{Binding Employees}" 
+                     SelectedItem="{Binding SelectedEmployee}"
+                     SelectedValuePath="Id"
+                     DisplayMemberPath="FullName"
+                     Width="200"
+                     Margin="0,0,20,0"/>
+            <TextBlock Text="Month:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox SelectedItem="{Binding SelectedMonth}" Width="80" Margin="0,0,20,0">
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type sys:Int32}">
+                        <sys:Int32>1</sys:Int32>
+                        <sys:Int32>2</sys:Int32>
+                        <sys:Int32>3</sys:Int32>
+                        <sys:Int32>4</sys:Int32>
+                        <sys:Int32>5</sys:Int32>
+                        <sys:Int32>6</sys:Int32>
+                        <sys:Int32>7</sys:Int32>
+                        <sys:Int32>8</sys:Int32>
+                        <sys:Int32>9</sys:Int32>
+                        <sys:Int32>10</sys:Int32>
+                        <sys:Int32>11</sys:Int32>
+                        <sys:Int32>12</sys:Int32>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <TextBlock Text="Year:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Text="{Binding SelectedYear}" Width="80" Margin="0,0,20,0"/>
+            <Button Content="Calculate Payroll" 
+                   Command="{Binding CalculatePayrollCommand}" 
+                   Padding="15,8"
+                   Background="#27AE60"
+                   Foreground="White"
+                   BorderThickness="0"
+                   Cursor="Hand"/>
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" 
+                 ItemsSource="{Binding Payrolls}" 
+                 SelectedItem="{Binding SelectedPayroll}"
+                 AutoGenerateColumns="False"
+                 IsReadOnly="True"
+                 GridLinesVisibility="All"
+                 HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Employee" Binding="{Binding Employee.FullName}" Width="200"/>
+                <DataGridTextColumn Header="Month" Binding="{Binding Month}" Width="60"/>
+                <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="60"/>
+                <DataGridTextColumn Header="Base Salary" Binding="{Binding BaseSalary, StringFormat=C}" Width="120"/>
+                <DataGridTextColumn Header="Deductions" Binding="{Binding Deductions, StringFormat=C}" Width="120"/>
+                <DataGridTextColumn Header="Bonuses" Binding="{Binding Bonuses, StringFormat=C}" Width="120"/>
+                <DataGridTextColumn Header="Net Salary" Binding="{Binding NetSalary, StringFormat=C}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Border Grid.Row="2" 
+               BorderBrush="#BDC3C7" 
+               BorderThickness="1" 
+               Padding="15"
+               Margin="0,10,0,0"
+               Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Payroll Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                
+                <TextBlock Grid.Row="1" Text="Employee:" Margin="0,5"/>
+                <ComboBox Grid.Row="2" 
+                         ItemsSource="{Binding Employees}" 
+                         SelectedValue="{Binding SelectedPayroll.EmployeeId}"
+                         SelectedValuePath="Id"
+                         DisplayMemberPath="FullName"
+                         Margin="0,5"/>
+                
+                <TextBlock Grid.Row="3" Text="Month:" Margin="0,5"/>
+                <TextBox Grid.Row="4" Text="{Binding SelectedPayroll.Month}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="5" Text="Year:" Margin="0,5"/>
+                <TextBox Grid.Row="6" Text="{Binding SelectedPayroll.Year}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="7" Text="Base Salary:" Margin="0,5"/>
+                <TextBox Grid.Row="8" Text="{Binding SelectedPayroll.BaseSalary}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="9" Text="Deductions:" Margin="0,5"/>
+                <TextBox Grid.Row="10" Text="{Binding SelectedPayroll.Deductions}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="11" Text="Bonuses:" Margin="0,5"/>
+                <TextBox Grid.Row="12" Text="{Binding SelectedPayroll.Bonuses}" Margin="0,5"/>
+                
+                <TextBlock Grid.Row="13" Text="Net Salary:" Margin="0,5"/>
+                <TextBox Grid.Row="14" Text="{Binding SelectedPayroll.NetSalary}" Margin="0,5"/>
+                
+                <StackPanel Grid.Row="15" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                    <Button Content="Save" 
+                           Command="{Binding SavePayrollCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#27AE60"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Delete" 
+                           Command="{Binding DeletePayrollCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#E74C3C"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Cancel" 
+                           Command="{Binding CancelEditCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#95A5A6"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+

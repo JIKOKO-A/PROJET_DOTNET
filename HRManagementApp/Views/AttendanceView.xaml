@@ -1,0 +1,137 @@
+<UserControl x:Class="HRManagementApp.Views.AttendanceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:HRManagementApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <UserControl.DataContext>
+        <vm:AttendanceViewModel />
+    </UserControl.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Select Employee:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox ItemsSource="{Binding Employees}" 
+                     SelectedItem="{Binding SelectedEmployee}"
+                     SelectedValuePath="Id"
+                     DisplayMemberPath="FullName"
+                     Width="200"
+                     Margin="0,0,20,0"/>
+            <Button Content="Check In" 
+                   Command="{Binding CheckInCommand}" 
+                   Padding="15,8"
+                   Background="#27AE60"
+                   Foreground="White"
+                   BorderThickness="0"
+                   Cursor="Hand"
+                   Margin="0,0,10,0"
+                   ToolTip="Check in selected employee for today"/>
+            <Button Content="Check Out" 
+                   Command="{Binding CheckOutCommand}" 
+                   Padding="15,8"
+                   Background="#E67E22"
+                   Foreground="White"
+                   BorderThickness="0"
+                   Cursor="Hand"
+                   Margin="0,0,10,0"
+                   ToolTip="Check out selected employee for today"/>
+            <Button Content="Add Attendance" 
+                   Command="{Binding AddAttendanceCommand}" 
+                   Padding="15,8"
+                   Background="#3498DB"
+                   Foreground="White"
+                   BorderThickness="0"
+                   Cursor="Hand"
+                   ToolTip="Add manual attendance record"/>
+        </StackPanel>
+        
+        <DatePicker Grid.Row="1" 
+                   SelectedDate="{Binding SelectedDate}" 
+                   Margin="0,0,0,10"/>
+        
+        <DataGrid Grid.Row="2" 
+                 ItemsSource="{Binding Attendances}" 
+                 SelectedItem="{Binding SelectedAttendance}"
+                 AutoGenerateColumns="False"
+                 IsReadOnly="True"
+                 GridLinesVisibility="All"
+                 HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Employee" Binding="{Binding Employee.FullName}" Width="200"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="100"/>
+                <DataGridTextColumn Header="Check In" Binding="{Binding CheckIn, StringFormat=t}" Width="120"/>
+                <DataGridTextColumn Header="Check Out" Binding="{Binding CheckOut, StringFormat=t}" Width="120"/>
+                <DataGridTextColumn Header="Hours Worked" Binding="{Binding HoursWorked, StringFormat=F2}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <Border Grid.Row="3" 
+               BorderBrush="#BDC3C7" 
+               BorderThickness="1" 
+               Padding="15"
+               Margin="0,10,0,0"
+               Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Attendance Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                
+                <TextBlock Grid.Row="1" Text="Employee:" Margin="0,5"/>
+                <ComboBox Grid.Row="2" 
+                         ItemsSource="{Binding Employees}" 
+                         SelectedValue="{Binding SelectedAttendance.EmployeeId}"
+                         SelectedValuePath="Id"
+                         DisplayMemberPath="FullName"
+                         Margin="0,5"/>
+                
+                <TextBlock Grid.Row="3" Text="Date:" Margin="0,5"/>
+                <DatePicker Grid.Row="4" SelectedDate="{Binding SelectedAttendance.Date}" Margin="0,5"/>
+                
+                <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                    <Button Content="Save" 
+                           Command="{Binding SaveAttendanceCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#27AE60"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Delete" 
+                           Command="{Binding DeleteAttendanceCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#E74C3C"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                    <Button Content="Cancel" 
+                           Command="{Binding CancelEditCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#95A5A6"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
+
+

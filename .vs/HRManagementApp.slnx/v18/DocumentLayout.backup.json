@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\HRManagementApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\user\\source\\repos\\hrmanagementapp\\hrmanagementapp\\viewmodels\\payrollviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|solutionrelative:hrmanagementapp\\viewmodels\\payrollviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PayrollViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "RelativeDocumentMoniker": "HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs*",
+              "RelativeToolTip": "HRManagementApp\\ViewModels\\PayrollViewModel.cs*",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAAAJoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T03:18:12.466Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
