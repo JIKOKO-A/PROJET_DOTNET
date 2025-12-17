@@ -59,11 +59,15 @@
         </Border>
 
         <!-- User Form -->
-        <Border Grid.Column="1" Margin="10" Padding="20" Background="White" CornerRadius="5">
-            <Border.Effect>
-                <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
-            </Border.Effect>
-            <StackPanel>
+        <ScrollViewer Grid.Column="1" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Disabled"
+                     Margin="10">
+            <Border Padding="20" Background="White" CornerRadius="5">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                </Border.Effect>
+                <StackPanel>
                 <TextBlock Text="User Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
 
                 <Grid>
@@ -155,8 +159,9 @@
                               TextWrapping="Wrap"
                               Margin="0,20,0,0"/>
                 </Grid>
-            </StackPanel>
-        </Border>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>
 

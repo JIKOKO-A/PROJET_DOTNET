@@ -9,3 +9,15 @@ C:\Users\User\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.
 C:\Users\User\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\refint\HRManagementApp.Core.dll
 C:\Users\User\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.pdb
 C:\Users\User\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\ref\HRManagementApp.Core.dll
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\bin\Debug\net10.0\HRManagementApp.Core.deps.json
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\bin\Debug\net10.0\HRManagementApp.Core.dll
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\bin\Debug\net10.0\HRManagementApp.Core.pdb
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.AssemblyInfoInputs.cache
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.AssemblyInfo.cs
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.csproj.CoreCompileInputs.cache
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.sourcelink.json
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.dll
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\refint\HRManagementApp.Core.dll
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\HRManagementApp.Core.pdb
+C:\Users\chakr\source\repos\HRManagementApp\HRManagementApp.Core\obj\Debug\net10.0\ref\HRManagementApp.Core.dll

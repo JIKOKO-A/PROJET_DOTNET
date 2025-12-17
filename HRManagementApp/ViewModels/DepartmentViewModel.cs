@@ -115,11 +115,29 @@ public partial class DepartmentViewModel : ObservableObject
         {
             if (SelectedDepartment.Id == 0)
             {
-                _context.Departments.Add(SelectedDepartment);
+                // New department - create a clean entity
+                var newDepartment = new Department
+                {
+                    Name = SelectedDepartment.Name,
+                    Description = SelectedDepartment.Description,
+                    ManagerId = SelectedDepartment.ManagerId
+                };
+                _context.Departments.Add(newDepartment);
             }
             else
             {
-                _context.Departments.Update(SelectedDepartment);
+                // Update existing department - reload from database to avoid tracking issues
+                var departmentToUpdate = _context.Departments.Find(SelectedDepartment.Id);
+                if (departmentToUpdate == null)
+                {
+                    MessageBox.Show("Department not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Update only scalar properties
+                departmentToUpdate.Name = SelectedDepartment.Name;
+                departmentToUpdate.Description = SelectedDepartment.Description;
+                departmentToUpdate.ManagerId = SelectedDepartment.ManagerId;
             }
 
             _context.SaveChanges();
@@ -127,6 +145,11 @@ public partial class DepartmentViewModel : ObservableObject
             IsEditMode = false;
             SelectedDepartment = null;
             MessageBox.Show("Department saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+            MessageBox.Show($"Error saving department: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception ex)
         {
@@ -150,11 +173,25 @@ public partial class DepartmentViewModel : ObservableObject
         {
             try
             {
-                _context.Departments.Remove(SelectedDepartment);
-                _context.SaveChanges();
-                LoadData();
-                SelectedDepartment = null;
-                MessageBox.Show($"Department {departmentName} deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Reload department from database to ensure it's tracked
+                var departmentToDelete = _context.Departments.Find(SelectedDepartment.Id);
+                if (departmentToDelete != null)
+                {
+                    _context.Departments.Remove(departmentToDelete);
+                    _context.SaveChanges();
+                    LoadData();
+                    SelectedDepartment = null;
+                    MessageBox.Show($"Department {departmentName} deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Department not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (DbUpdateException dbEx)
+            {
+                var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+                MessageBox.Show($"Error deleting department: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {

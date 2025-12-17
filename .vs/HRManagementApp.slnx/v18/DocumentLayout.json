@@ -51,8 +51,7 @@
               "RelativeToolTip": "HRManagementApp\\ViewModels\\AttendanceViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T09:46:37.653Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T09:46:37.653Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "HRManagementApp\\Converters\\BoolToVisibilityConverter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T09:46:32.633Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T09:46:32.633Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "HRManagementApp\\ViewModels\\PayrollViewModel.cs",
               "ViewState": "AgIAAMkAAAAAAAAAAAAmwJoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T03:18:12.466Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T03:18:12.466Z"
             }
           ]
         }

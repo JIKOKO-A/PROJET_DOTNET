@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
@@ -45,43 +46,68 @@
                 </ComboBox.ItemsSource>
             </ComboBox>
             <TextBlock Text="Year:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <TextBox Text="{Binding SelectedYear}" Width="80" Margin="0,0,20,0"/>
+            <TextBox Text="{Binding SelectedYear, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="0,0,20,0"/>
+            <CheckBox Content="Filter by Month/Year" 
+                     IsChecked="{Binding FilterByMonthYear}" 
+                     VerticalAlignment="Center"
+                     Margin="0,0,20,0"/>
             <Button Content="Calculate Payroll" 
                    Command="{Binding CalculatePayrollCommand}" 
                    Padding="15,8"
                    Background="#27AE60"
                    Foreground="White"
                    BorderThickness="0"
+                   Cursor="Hand"
+                   Margin="0,0,10,0"/>
+            <Button Content="Edit Payroll" 
+                   Command="{Binding EditPayrollCommand}" 
+                   Padding="15,8"
+                   Background="#3498DB"
+                   Foreground="White"
+                   BorderThickness="0"
                    Cursor="Hand"/>
         </StackPanel>
         
         <DataGrid Grid.Row="1" 
-                 ItemsSource="{Binding Payrolls}" 
+                 ItemsSource="{Binding FilteredPayrolls}" 
                  SelectedItem="{Binding SelectedPayroll}"
                  AutoGenerateColumns="False"
                  IsReadOnly="True"
                  GridLinesVisibility="All"
-                 HeadersVisibility="Column">
+                 HeadersVisibility="Column"
+                 MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                 <DataGridTextColumn Header="Employee" Binding="{Binding Employee.FullName}" Width="200"/>
                 <DataGridTextColumn Header="Month" Binding="{Binding Month}" Width="60"/>
                 <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="60"/>
-                <DataGridTextColumn Header="Base Salary" Binding="{Binding BaseSalary, StringFormat=C}" Width="120"/>
-                <DataGridTextColumn Header="Deductions" Binding="{Binding Deductions, StringFormat=C}" Width="120"/>
-                <DataGridTextColumn Header="Bonuses" Binding="{Binding Bonuses, StringFormat=C}" Width="120"/>
-                <DataGridTextColumn Header="Net Salary" Binding="{Binding NetSalary, StringFormat=C}" Width="120"/>
+                <DataGridTextColumn Header="Base Salary" Binding="{Binding BaseSalary, StringFormat='{}{0:N2} MAD'}" Width="120"/>
+                <DataGridTextColumn Header="Deductions" Binding="{Binding Deductions, StringFormat='{}{0:N2} MAD'}" Width="120"/>
+                <DataGridTextColumn Header="Bonuses" Binding="{Binding Bonuses, StringFormat='{}{0:N2} MAD'}" Width="120"/>
+                <DataGridTextColumn Header="Net Salary" Binding="{Binding NetSalary, StringFormat='{}{0:N2} MAD'}" Width="120"/>
             </DataGrid.Columns>
         </DataGrid>
         
-        <Border Grid.Row="2" 
-               BorderBrush="#BDC3C7" 
-               BorderThickness="1" 
-               Padding="15"
-               Margin="0,10,0,0"
-               Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid>
+        <ScrollViewer Grid.Row="2" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Disabled"
+                     Margin="0,10,0,0"
+                     Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}"
+                     MaxHeight="400">
+            <Border BorderBrush="#BDC3C7" 
+                   BorderThickness="1" 
+                   Padding="15">
+                <Grid DataContext="{Binding}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -103,24 +129,49 @@
                          Margin="0,5"/>
                 
                 <TextBlock Grid.Row="3" Text="Month:" Margin="0,5"/>
-                <TextBox Grid.Row="4" Text="{Binding SelectedPayroll.Month}" Margin="0,5"/>
+                <TextBox Grid.Row="4" 
+                        Text="{Binding SelectedPayroll.Month, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="0,5"/>
                 
                 <TextBlock Grid.Row="5" Text="Year:" Margin="0,5"/>
-                <TextBox Grid.Row="6" Text="{Binding SelectedPayroll.Year}" Margin="0,5"/>
+                <TextBox Grid.Row="6" 
+                        Text="{Binding SelectedPayroll.Year, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="0,5"/>
                 
                 <TextBlock Grid.Row="7" Text="Base Salary:" Margin="0,5"/>
-                <TextBox Grid.Row="8" Text="{Binding SelectedPayroll.BaseSalary}" Margin="0,5"/>
+                <TextBox Grid.Row="8" 
+                        Text="{Binding SelectedPayroll.BaseSalary, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="0,5"
+                        TextChanged="TextBox_TextChanged"/>
                 
                 <TextBlock Grid.Row="9" Text="Deductions:" Margin="0,5"/>
-                <TextBox Grid.Row="10" Text="{Binding SelectedPayroll.Deductions}" Margin="0,5"/>
+                <TextBox Grid.Row="10" 
+                        Text="{Binding SelectedPayroll.Deductions, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="0,5"
+                        TextChanged="TextBox_TextChanged"/>
                 
                 <TextBlock Grid.Row="11" Text="Bonuses:" Margin="0,5"/>
-                <TextBox Grid.Row="12" Text="{Binding SelectedPayroll.Bonuses}" Margin="0,5"/>
+                <TextBox Grid.Row="12" 
+                        Text="{Binding SelectedPayroll.Bonuses, UpdateSourceTrigger=PropertyChanged}" 
+                        Margin="0,5"
+                        TextChanged="TextBox_TextChanged"/>
                 
                 <TextBlock Grid.Row="13" Text="Net Salary:" Margin="0,5"/>
-                <TextBox Grid.Row="14" Text="{Binding SelectedPayroll.NetSalary}" Margin="0,5"/>
+                <TextBox Grid.Row="14" 
+                        Text="{Binding SelectedPayroll.NetSalary, Mode=OneWay}" 
+                        Margin="0,5" 
+                        IsReadOnly="True" 
+                        Background="#F0F0F0"/>
                 
                 <StackPanel Grid.Row="15" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                    <Button Content="Recalculate" 
+                           Command="{Binding RecalculatePayrollCommand}" 
+                           Margin="5" 
+                           Padding="20,8"
+                           Background="#9B59B6"
+                           Foreground="White"
+                           BorderThickness="0"
+                           Cursor="Hand"/>
                     <Button Content="Save" 
                            Command="{Binding SavePayrollCommand}" 
                            Margin="5" 
@@ -146,8 +197,47 @@
                            BorderThickness="0"
                            Cursor="Hand"/>
                 </StackPanel>
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+        
+        <!-- Customization Panel -->
+        <ScrollViewer Grid.Row="3"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Disabled"
+                     Margin="0,10,0,0"
+                     MaxHeight="200">
+            <Border BorderBrush="#3498DB" 
+                   BorderThickness="1" 
+                   Padding="15"
+                   Background="#ECF0F1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="Calculation Settings" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Tax Rate (%):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding TaxRate, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="5,0"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Insurance Rate (%):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding InsuranceRate, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="5,0"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Bonus per Day (MAD):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding BonusPerDay, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="5,0"/>
+                </StackPanel>
+                </Grid>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>
 

@@ -1,9 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\HRManagementApp\\",
+  "WorkspaceRootPath": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\user\\source\\repos\\hrmanagementapp\\hrmanagementapp\\viewmodels\\payrollviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\chakr\\source\\repos\\hrmanagementapp\\hrmanagementapp\\viewmodels\\departmentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|solutionrelative:hrmanagementapp\\viewmodels\\departmentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\chakr\\source\\repos\\hrmanagementapp\\hrmanagementapp\\viewmodels\\attendanceviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|solutionrelative:hrmanagementapp\\viewmodels\\attendanceviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\chakr\\source\\repos\\hrmanagementapp\\hrmanagementapp\\converters\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|solutionrelative:hrmanagementapp\\converters\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|c:\\users\\chakr\\source\\repos\\hrmanagementapp\\hrmanagementapp\\viewmodels\\payrollviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2867849A-F311-9AD7-21B3-4215C06A5D5B}|HRManagementApp\\HRManagementApp.csproj|solutionrelative:hrmanagementapp\\viewmodels\\payrollviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -19,15 +31,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PayrollViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs",
-              "RelativeDocumentMoniker": "HRManagementApp\\ViewModels\\PayrollViewModel.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs*",
-              "RelativeToolTip": "HRManagementApp\\ViewModels\\PayrollViewModel.cs*",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAAAJoAAAAJAAAAAAAAAA==",
+              "Title": "DepartmentViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\DepartmentViewModel.cs",
+              "RelativeDocumentMoniker": "HRManagementApp\\ViewModels\\DepartmentViewModel.cs",
+              "ToolTip": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\DepartmentViewModel.cs",
+              "RelativeToolTip": "HRManagementApp\\ViewModels\\DepartmentViewModel.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T03:18:12.466Z",
+              "WhenOpened": "2025-12-17T09:46:39.246Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AttendanceViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\AttendanceViewModel.cs",
+              "RelativeDocumentMoniker": "HRManagementApp\\ViewModels\\AttendanceViewModel.cs",
+              "ToolTip": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\AttendanceViewModel.cs",
+              "RelativeToolTip": "HRManagementApp\\ViewModels\\AttendanceViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T09:46:37.653Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BoolToVisibilityConverter.cs",
+              "DocumentMoniker": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\Converters\\BoolToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "HRManagementApp\\Converters\\BoolToVisibilityConverter.cs",
+              "ToolTip": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\Converters\\BoolToVisibilityConverter.cs",
+              "RelativeToolTip": "HRManagementApp\\Converters\\BoolToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T09:46:32.633Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PayrollViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "RelativeDocumentMoniker": "HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "ToolTip": "C:\\Users\\chakr\\source\\repos\\HRManagementApp\\HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "RelativeToolTip": "HRManagementApp\\ViewModels\\PayrollViewModel.cs",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAmwJoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T03:18:12.466Z"
             }
           ]
         }

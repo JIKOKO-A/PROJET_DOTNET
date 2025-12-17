@@ -49,19 +49,22 @@
                 <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="120"/>
                 <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="150"/>
                 <DataGridTextColumn Header="Department" Binding="{Binding Department.Name}" Width="120"/>
-                <DataGridTextColumn Header="Salary" Binding="{Binding Salary, StringFormat=C}" Width="100"/>
+                <DataGridTextColumn Header="Salary" Binding="{Binding Salary, StringFormat='{}{0:N2} MAD'}" Width="100"/>
                 <DataGridTextColumn Header="Hire Date" Binding="{Binding HireDate, StringFormat=d}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
         
         <!-- Edit Panel -->
-        <Border Grid.Row="2" 
-               BorderBrush="#BDC3C7" 
-               BorderThickness="1" 
-               Padding="15"
-               Margin="0,10,0,0"
-               Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid>
+        <ScrollViewer Grid.Row="2" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Disabled"
+                     Margin="0,10,0,0"
+                     Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibilityConverter}}"
+                     MaxHeight="500">
+            <Border BorderBrush="#BDC3C7" 
+                   BorderThickness="1" 
+                   Padding="15">
+                <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -140,8 +143,9 @@
                            BorderThickness="0"
                            Cursor="Hand"/>
                 </StackPanel>
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </UserControl>
 

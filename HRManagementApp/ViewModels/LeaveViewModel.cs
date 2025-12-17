@@ -89,28 +89,105 @@ public partial class LeaveViewModel : ObservableObject
     [RelayCommand]
     private void EditLeaveRequest()
     {
-        if (SelectedLeaveRequest != null)
+        if (SelectedLeaveRequest == null)
         {
-            IsEditMode = true;
+            MessageBox.Show("Please select a leave request to edit.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
         }
+
+        if (SelectedLeaveRequest.Id == 0)
+        {
+            MessageBox.Show("Cannot edit a new leave request. Please save it first.", "Invalid Operation", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        // Create a clean copy for editing to avoid navigation property issues
+        if (_context != null)
+        {
+            var leaveFromDb = _context.LeaveRequests
+                .AsNoTracking()
+                .FirstOrDefault(l => l.Id == SelectedLeaveRequest.Id);
+            
+            if (leaveFromDb != null)
+            {
+                SelectedLeaveRequest = new LeaveRequest
+                {
+                    Id = leaveFromDb.Id,
+                    EmployeeId = leaveFromDb.EmployeeId,
+                    StartDate = leaveFromDb.StartDate,
+                    EndDate = leaveFromDb.EndDate,
+                    LeaveType = leaveFromDb.LeaveType,
+                    Status = leaveFromDb.Status,
+                    Reason = leaveFromDb.Reason
+                };
+            }
+        }
+
+        IsEditMode = true;
     }
 
     [RelayCommand]
     private void ApproveLeave()
     {
-        if (SelectedLeaveRequest == null) return;
+        if (SelectedLeaveRequest == null || _context == null) return;
 
-        SelectedLeaveRequest.Status = LeaveStatus.Approved;
-        SaveLeaveRequest();
+        try
+        {
+            // Reload leave request from database to ensure it's tracked
+            var leaveToUpdate = _context.LeaveRequests.Find(SelectedLeaveRequest.Id);
+            if (leaveToUpdate != null)
+            {
+                leaveToUpdate.Status = LeaveStatus.Approved;
+                _context.SaveChanges();
+                LoadData();
+                MessageBox.Show("Leave request approved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Leave request not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        catch (DbUpdateException dbEx)
+        {
+            var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+            MessageBox.Show($"Error approving leave request: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error approving leave request: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     [RelayCommand]
     private void RejectLeave()
     {
-        if (SelectedLeaveRequest == null) return;
+        if (SelectedLeaveRequest == null || _context == null) return;
 
-        SelectedLeaveRequest.Status = LeaveStatus.Rejected;
-        SaveLeaveRequest();
+        try
+        {
+            // Reload leave request from database to ensure it's tracked
+            var leaveToUpdate = _context.LeaveRequests.Find(SelectedLeaveRequest.Id);
+            if (leaveToUpdate != null)
+            {
+                leaveToUpdate.Status = LeaveStatus.Rejected;
+                _context.SaveChanges();
+                LoadData();
+                MessageBox.Show("Leave request rejected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Leave request not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        catch (DbUpdateException dbEx)
+        {
+            var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+            MessageBox.Show($"Error rejecting leave request: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error rejecting leave request: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     [RelayCommand]
@@ -118,15 +195,52 @@ public partial class LeaveViewModel : ObservableObject
     {
         if (SelectedLeaveRequest == null || _context == null) return;
 
+        // Validation
+        if (SelectedLeaveRequest.EmployeeId == 0)
+        {
+            MessageBox.Show("Please select an employee.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (SelectedLeaveRequest.StartDate > SelectedLeaveRequest.EndDate)
+        {
+            MessageBox.Show("Start date cannot be after end date.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         try
         {
             if (SelectedLeaveRequest.Id == 0)
             {
-                _context.LeaveRequests.Add(SelectedLeaveRequest);
+                // New leave request - create a clean entity
+                var newLeaveRequest = new LeaveRequest
+                {
+                    EmployeeId = SelectedLeaveRequest.EmployeeId,
+                    StartDate = SelectedLeaveRequest.StartDate,
+                    EndDate = SelectedLeaveRequest.EndDate,
+                    LeaveType = SelectedLeaveRequest.LeaveType,
+                    Status = SelectedLeaveRequest.Status,
+                    Reason = SelectedLeaveRequest.Reason
+                };
+                _context.LeaveRequests.Add(newLeaveRequest);
             }
             else
             {
-                _context.LeaveRequests.Update(SelectedLeaveRequest);
+                // Update existing leave request - reload from database to avoid tracking issues
+                var leaveToUpdate = _context.LeaveRequests.Find(SelectedLeaveRequest.Id);
+                if (leaveToUpdate == null)
+                {
+                    MessageBox.Show("Leave request not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Update only scalar properties
+                leaveToUpdate.EmployeeId = SelectedLeaveRequest.EmployeeId;
+                leaveToUpdate.StartDate = SelectedLeaveRequest.StartDate;
+                leaveToUpdate.EndDate = SelectedLeaveRequest.EndDate;
+                leaveToUpdate.LeaveType = SelectedLeaveRequest.LeaveType;
+                leaveToUpdate.Status = SelectedLeaveRequest.Status;
+                leaveToUpdate.Reason = SelectedLeaveRequest.Reason;
             }
 
             _context.SaveChanges();
@@ -134,6 +248,11 @@ public partial class LeaveViewModel : ObservableObject
             IsEditMode = false;
             SelectedLeaveRequest = null;
             MessageBox.Show("Leave request saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+            MessageBox.Show($"Error saving leave request: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         catch (Exception ex)
         {
@@ -156,11 +275,25 @@ public partial class LeaveViewModel : ObservableObject
         {
             try
             {
-                _context.LeaveRequests.Remove(SelectedLeaveRequest);
-                _context.SaveChanges();
-                LoadData();
-                SelectedLeaveRequest = null;
-                MessageBox.Show("Leave request deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Reload leave request from database to ensure it's tracked
+                var leaveToDelete = _context.LeaveRequests.Find(SelectedLeaveRequest.Id);
+                if (leaveToDelete != null)
+                {
+                    _context.LeaveRequests.Remove(leaveToDelete);
+                    _context.SaveChanges();
+                    LoadData();
+                    SelectedLeaveRequest = null;
+                    MessageBox.Show("Leave request deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Leave request not found in database.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (DbUpdateException dbEx)
+            {
+                var innerMessage = dbEx.InnerException?.Message ?? dbEx.Message;
+                MessageBox.Show($"Error deleting leave request: {innerMessage}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {

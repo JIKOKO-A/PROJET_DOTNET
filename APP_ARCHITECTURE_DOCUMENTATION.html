@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Management App - Complete Architecture Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+
+        h3 {
+            color: #2980b9;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        h4 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .toc {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .page-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .files-list {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .files-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .files-list li {
+            padding: 5px 0;
+            color: #2c3e50;
+        }
+
+        .files-list li:before {
+            content: "📄 ";
+            margin-right: 5px;
+        }
+
+        .function-box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .function-name {
+            color: #27ae60;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .function-desc {
+            color: #555;
+            margin-left: 20px;
+        }
+
+        .property-list {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .property-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .property-list li {
+            padding: 5px 0;
+            color: #856404;
+        }
+
+        .property-list li:before {
+            content: "🔹 ";
+            margin-right: 5px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+            font-size: 0.9em;
+        }
+
+        .workflow {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .workflow ol {
+            margin-left: 20px;
+        }
+
+        .workflow li {
+            margin: 8px 0;
+            color: #0c5460;
+        }
+
+        .model-box {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .security-box {
+            background: #f8d7da;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .pattern-box {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e8f4f8;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .badge-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .badge-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .badge-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3498db;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .back-to-top:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 HR Management App - Complete Architecture Documentation</h1>
+
+        <div class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">Application Overview</a></li>
+                <li><a href="#login">1. Login Page</a></li>
+                <li><a href="#main">2. Main Window</a></li>
+                <li><a href="#employee">3. Employee Management</a></li>
+                <li><a href="#department">4. Department Management</a></li>
+                <li><a href="#attendance">5. Attendance Tracking</a></li>
+                <li><a href="#leave">6. Leave Management</a></li>
+                <li><a href="#payroll">7. Payroll Processing</a></li>
+                <li><a href="#user">8. User Management</a></li>
+                <li><a href="#files">File Roles and Functions</a></li>
+                <li><a href="#dataflow">Data Flow</a></li>
+            </ul>
+        </div>
+
+        <section id="overview" class="page-section">
+            <h2>🏗️ Application Overview</h2>
+            <p><strong>Architecture Pattern:</strong> <span class="highlight">MVVM (Model-View-ViewModel)</span></p>
+            <p><strong>Framework:</strong> .NET 10.0 with WPF</p>
+            <p><strong>Database:</strong> SQLite with Entity Framework Core 10.0.0</p>
+            <p><strong>MVVM Toolkit:</strong> CommunityToolkit.Mvvm 8.3.2</p>
+
+            <h4>Project Structure:</h4>
+            <div class="files-list">
+                <ul>
+                    <li><code>HRManagementApp.Core/</code> - Domain Models (Entities)</li>
+                    <li><code>HRManagementApp.Data/</code> - Data Access Layer</li>
+                    <li><code>HRManagementApp/</code> - WPF Application (Views + ViewModels)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="login" class="page-section">
+            <h2>1️⃣ LOGIN PAGE <span class="emoji">🔐</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/LoginWindow.xaml</code> - UI Layout</li>
+                    <li><code>Views/LoginWindow.xaml.cs</code> - Code-behind</li>
+                    <li><code>ViewModels/LoginViewModel.cs</code> - Business Logic</li>
+                    <li><code>Data/AuthenticationService.cs</code> - Authentication Logic</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                    <li><code>Core/User.cs</code> - User Model</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li>User enters username and password</li>
+                    <li><code>LoginCommand</code> executes in <code>LoginViewModel</code></li>
+                    <li>Calls <code>AuthenticationService.Login()</code> which:
+                        <ul>
+                            <li>Finds user by username</li>
+                            <li>Hashes entered password with SHA-256</li>
+                            <li>Compares with stored password hash</li>
+                            <li>Updates <code>LastLoginDate</code> if successful</li>
+                        </ul>
+                    </li>
+                    <li>If valid, opens <code>MainWindow</code> and closes <code>LoginWindow</code></li>
+                    <li>If invalid, shows error message</li>
+                </ol>
+            </div>
+
+            <h3>Functions in LoginViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">LoginViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context and authentication service</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">Login(object parameter)</div>
+                <div class="function-desc">Command: Validates input, calls auth service, opens main window. Parameter is PasswordBox control.</div>
+            </div>
+
+            <h3>Functions in AuthenticationService.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">Login(string username, string password)</div>
+                <div class="function-desc">Authenticates user, returns User object or null. Updates LastLoginDate on success.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">HashPassword(string password)</div>
+                <div class="function-desc">Static method: Hashes password using SHA-256 algorithm, returns Base64 string</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CreateUser(string username, string password, string fullName, string email, UserRole role)</div>
+                <div class="function-desc">Creates new user account with validation. Returns true if successful, false if username/email exists.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ChangePassword(int userId, string oldPassword, string newPassword)</div>
+                <div class="function-desc">Changes user password. Validates old password first. Returns true if successful.</div>
+            </div>
+
+            <h3>Properties in LoginViewModel:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Username</code> - User input username</li>
+                    <li><code>ErrorMessage</code> - Error message to display</li>
+                    <li><code>IsLoading</code> - Loading state indicator</li>
+                    <li><code>CurrentUser</code> - Authenticated user (private set)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="main" class="page-section">
+            <h2>2️⃣ MAIN WINDOW <span class="emoji">🏠</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>MainWindow.xaml</code> - Main container layout</li>
+                    <li><code>MainWindow.xaml.cs</code> - Code-behind</li>
+                    <li><code>ViewModels/MainViewModel.cs</code> - Navigation logic</li>
+                    <li>All View files (EmployeeView, DepartmentView, etc.)</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li>Receives <code>User</code> object from login</li>
+                    <li>Creates <code>MainViewModel</code> with current user</li>
+                    <li>Initializes all view instances once (singleton pattern)</li>
+                    <li>Navigation buttons switch between views</li>
+                    <li>Shows welcome message and logout button</li>
+                </ol>
+            </div>
+
+            <h3>Functions in MainViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">MainViewModel(User currentUser)</div>
+                <div class="function-desc">Constructor: Initializes all views, sets welcome message, shows Employees view by default</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowEmployees()</div>
+                <div class="function-desc">Command: Switches CurrentView to EmployeeView, sets ActiveViewName to "Employees"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowDepartments()</div>
+                <div class="function-desc">Command: Switches CurrentView to DepartmentView, sets ActiveViewName to "Departments"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowAttendance()</div>
+                <div class="function-desc">Command: Switches CurrentView to AttendanceView, sets ActiveViewName to "Attendance"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowLeave()</div>
+                <div class="function-desc">Command: Switches CurrentView to LeaveView, sets ActiveViewName to "Leave"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowPayroll()</div>
+                <div class="function-desc">Command: Switches CurrentView to PayrollView, sets ActiveViewName to "Payroll"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ShowUserManagement()</div>
+                <div class="function-desc">Command: Switches CurrentView to UserManagementView, sets ActiveViewName to "Users". Admin only - shows warning if not admin.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">Logout()</div>
+                <div class="function-desc">Command: Confirms logout, closes MainWindow, opens LoginWindow</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>CurrentView</code> - Currently displayed view object</li>
+                    <li><code>ActiveViewName</code> - Name of active view (for button highlighting)</li>
+                    <li><code>CurrentUser</code> - Logged-in user object</li>
+                    <li><code>WelcomeMessage</code> - Welcome text displayed in header</li>
+                    <li><code>IsAdmin</code> - Computed property: true if user role is Admin</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="employee" class="page-section">
+            <h2>3️⃣ EMPLOYEE MANAGEMENT PAGE <span class="emoji">👥</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/EmployeeView.xaml</code> - UI Layout</li>
+                    <li><code>ViewModels/EmployeeViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/Employee.cs</code> - Employee Model</li>
+                    <li><code>Core/Department.cs</code> - Department Model (for dropdown)</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>Loads Data:</strong> Fetches all employees with their departments</li>
+                    <li><strong>Search:</strong> Real-time filtering by FirstName, LastName, or Email</li>
+                    <li><strong>Add:</strong> Creates new employee, opens edit form</li>
+                    <li><strong>Edit:</strong> Select employee → opens edit form with pre-filled data</li>
+                    <li><strong>Save:</strong> Validates data → saves to database → refreshes list</li>
+                    <li><strong>Delete:</strong> Confirms → removes from database → refreshes list</li>
+                </ol>
+            </div>
+
+            <h3>Functions in EmployeeViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">EmployeeViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, calls LoadData(), handles initialization errors</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadData()</div>
+                <div class="function-desc">Private: Loads all employees (with Department navigation) and all departments from database into ObservableCollections</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">AddEmployee()</div>
+                <div class="function-desc">Command: Creates new Employee object with HireDate = Now, sets IsEditMode = true</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">EditEmployee()</div>
+                <div class="function-desc">Command: Sets IsEditMode = true for selected employee</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SaveEmployee()</div>
+                <div class="function-desc">Command: Validates required fields (FirstName, LastName, Email format), checks duplicate email, validates salary >= 0. If Id == 0 adds new, else updates existing. Saves to database and refreshes.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeleteEmployee()</div>
+                <div class="function-desc">Command: Shows confirmation dialog, removes employee from database, refreshes list</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CancelEdit()</div>
+                <div class="function-desc">Command: Sets IsEditMode = false, clears SelectedEmployee, reloads data</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">OnSearchTextChanged(string value)</div>
+                <div class="function-desc">Partial method: Auto-triggered when SearchText changes. Filters employees by FirstName, LastName, or Email (case-insensitive). If empty, loads all.</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Employees</code> - ObservableCollection of all employees</li>
+                    <li><code>Departments</code> - ObservableCollection of all departments (for dropdown)</li>
+                    <li><code>SelectedEmployee</code> - Currently selected employee in DataGrid</li>
+                    <li><code>SearchText</code> - Search filter text (triggers OnSearchTextChanged)</li>
+                    <li><code>IsEditMode</code> - Boolean: whether edit form is visible</li>
+                </ul>
+            </div>
+
+            <h3>Employee Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key (int)</li>
+                    <li><code>FirstName</code>, <code>LastName</code> - Name fields (string)</li>
+                    <li><code>Email</code>, <code>Phone</code> - Contact info (string, nullable)</li>
+                    <li><code>HireDate</code> - Employment start date (DateTime)</li>
+                    <li><code>DepartmentId</code> - Foreign key to Department (int?, nullable)</li>
+                    <li><code>Position</code> - Job title (string)</li>
+                    <li><code>Salary</code> - Monthly salary (decimal)</li>
+                    <li><code>Department</code> - Navigation property to Department</li>
+                    <li><code>Attendances</code>, <code>LeaveRequests</code>, <code>Payrolls</code> - Related collections</li>
+                    <li><code>FullName</code> - Computed property: returns "FirstName LastName"</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="department" class="page-section">
+            <h2>4️⃣ DEPARTMENT MANAGEMENT PAGE <span class="emoji">🏢</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/DepartmentView.xaml</code> - UI Layout</li>
+                    <li><code>ViewModels/DepartmentViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/Department.cs</code> - Department Model</li>
+                    <li><code>Core/Employee.cs</code> - Employee Model (for manager selection)</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>Loads Data:</strong> Fetches departments with managers and employee counts</li>
+                    <li><strong>Add:</strong> Creates new department, opens edit form</li>
+                    <li><strong>Edit:</strong> Select department → opens edit form</li>
+                    <li><strong>Save:</strong> Validates name uniqueness → saves → refreshes</li>
+                    <li><strong>Delete:</strong> Confirms → removes department (employees set to null)</li>
+                </ol>
+            </div>
+
+            <h3>Functions in DepartmentViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">DepartmentViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, calls LoadData(), handles errors</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadData()</div>
+                <div class="function-desc">Private: Loads departments with Manager and Employees navigation properties, loads all employees for manager selection</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">AddDepartment()</div>
+                <div class="function-desc">Command: Creates new Department object, sets IsEditMode = true</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">EditDepartment()</div>
+                <div class="function-desc">Command: Sets IsEditMode = true if department is selected</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SaveDepartment()</div>
+                <div class="function-desc">Command: Validates name is required, checks for duplicate names. For new: creates clean entity. For update: reloads from DB using Find() to avoid EF tracking issues, updates scalar properties only. Saves and refreshes.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeleteDepartment()</div>
+                <div class="function-desc">Command: Shows confirmation, reloads department from DB using Find(), removes it, refreshes list</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CancelEdit()</div>
+                <div class="function-desc">Command: Sets IsEditMode = false, clears selection, reloads data</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Departments</code> - ObservableCollection of departments</li>
+                    <li><code>Employees</code> - ObservableCollection of employees (for manager dropdown)</li>
+                    <li><code>SelectedDepartment</code> - Currently selected department</li>
+                    <li><code>IsEditMode</code> - Whether edit form is visible</li>
+                </ul>
+            </div>
+
+            <h3>Department Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key</li>
+                    <li><code>Name</code> - Department name (required, max 100 chars)</li>
+                    <li><code>Description</code> - Optional description</li>
+                    <li><code>ManagerId</code> - Foreign key to Employee (manager, nullable)</li>
+                    <li><code>Manager</code> - Navigation property to Employee</li>
+                    <li><code>Employees</code> - Collection of employees in department</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="attendance" class="page-section">
+            <h2>5️⃣ ATTENDANCE TRACKING PAGE <span class="emoji">⏰</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/AttendanceView.xaml</code> - UI Layout</li>
+                    <li><code>ViewModels/AttendanceViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/Attendance.cs</code> - Attendance Model</li>
+                    <li><code>Core/Employee.cs</code> - Employee Model</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>Select Employee:</strong> Choose from dropdown</li>
+                    <li><strong>Check In:</strong> Records current time as CheckIn for today</li>
+                    <li><strong>Check Out:</strong> Records current time as CheckOut, calculates hours worked</li>
+                    <li><strong>Add Manual:</strong> Opens form to add attendance record manually</li>
+                    <li><strong>View History:</strong> DataGrid shows all attendance records</li>
+                    <li><strong>Edit/Delete:</strong> Select record → edit or delete</li>
+                </ol>
+            </div>
+
+            <h3>Functions in AttendanceViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">AttendanceViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, calls LoadData()</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadData()</div>
+                <div class="function-desc">Private: Loads attendance records with Employee navigation, orders by Date descending</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">AddAttendance()</div>
+                <div class="function-desc">Command: Validates employee selected, creates new Attendance with EmployeeId and SelectedDate, sets CheckIn to Now, enables edit mode</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CheckIn()</div>
+                <div class="function-desc">Command: Validates employee selected, checks if already checked in today, creates new Attendance record with CheckIn = Now for today's date, saves immediately</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CheckOut()</div>
+                <div class="function-desc">Command: Validates employee selected, finds today's attendance, validates CheckIn exists and CheckOut doesn't exist, sets CheckOut = Now, calculates HoursWorked from time difference, saves</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SaveAttendance()</div>
+                <div class="function-desc">Command: Validates EmployeeId, calculates HoursWorked if both CheckIn and CheckOut exist, adds or updates attendance record</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeleteAttendance()</div>
+                <div class="function-desc">Command: Shows confirmation, removes attendance record, refreshes list</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CancelEdit()</div>
+                <div class="function-desc">Command: Sets IsEditMode = false, clears selection, reloads data</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">OnSelectedDateChanged(DateTime value)</div>
+                <div class="function-desc">Partial method: Auto-triggered when SelectedDate changes, reloads attendance data</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Attendances</code> - ObservableCollection of attendance records</li>
+                    <li><code>Employees</code> - ObservableCollection of employees</li>
+                    <li><code>SelectedAttendance</code> - Currently selected attendance record</li>
+                    <li><code>SelectedEmployee</code> - Currently selected employee</li>
+                    <li><code>SelectedDate</code> - Date filter (triggers OnSelectedDateChanged)</li>
+                    <li><code>IsEditMode</code> - Whether edit form is visible</li>
+                </ul>
+            </div>
+
+            <h3>Attendance Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key</li>
+                    <li><code>EmployeeId</code> - Foreign key to Employee</li>
+                    <li><code>Date</code> - Attendance date</li>
+                    <li><code>CheckIn</code> - Check-in time (nullable DateTime)</li>
+                    <li><code>CheckOut</code> - Check-out time (nullable DateTime)</li>
+                    <li><code>HoursWorked</code> - Calculated hours (double)</li>
+                    <li><code>Employee</code> - Navigation property</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="leave" class="page-section">
+            <h2>6️⃣ LEAVE MANAGEMENT PAGE <span class="emoji">🏖️</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/LeaveView.xaml</code> - UI Layout</li>
+                    <li><code>Views/LeaveView.xaml.cs</code> - Code-behind (double-click handler)</li>
+                    <li><code>ViewModels/LeaveViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/LeaveRequest.cs</code> - LeaveRequest Model</li>
+                    <li><code>Core/Employee.cs</code> - Employee Model</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>View Requests:</strong> DataGrid shows all leave requests</li>
+                    <li><strong>Add:</strong> Creates new leave request, opens edit form</li>
+                    <li><strong>Edit:</strong> Double-click or select → Edit button → opens form</li>
+                    <li><strong>Approve/Reject:</strong> Quick status update buttons</li>
+                    <li><strong>Save:</strong> Validates dates → saves → refreshes</li>
+                    <li><strong>Delete:</strong> Removes leave request</li>
+                </ol>
+            </div>
+
+            <h3>Functions in LeaveViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">LeaveViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, calls LoadData()</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadData()</div>
+                <div class="function-desc">Private: Loads leave requests with Employee navigation, orders by StartDate descending</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">AddLeaveRequest()</div>
+                <div class="function-desc">Command: Creates new LeaveRequest with StartDate = Now, EndDate = Now, Status = Pending, enables edit mode</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">EditLeaveRequest()</div>
+                <div class="function-desc">Command: Validates selection, checks Id != 0, loads clean copy from DB using AsNoTracking() to avoid EF tracking issues, enables edit mode</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ApproveLeave()</div>
+                <div class="function-desc">Command: Reloads leave request from DB using Find(), sets Status = Approved, saves, refreshes</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">RejectLeave()</div>
+                <div class="function-desc">Command: Reloads leave request from DB using Find(), sets Status = Rejected, saves, refreshes</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SaveLeaveRequest()</div>
+                <div class="function-desc">Command: Validates EmployeeId and StartDate <= EndDate. For new: creates clean entity. For update: reloads from DB, updates scalar properties only. Saves and refreshes.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeleteLeaveRequest()</div>
+                <div class="function-desc">Command: Shows confirmation, reloads from DB using Find(), removes it, refreshes list</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CancelEdit()</div>
+                <div class="function-desc">Command: Sets IsEditMode = false, clears selection, reloads data</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>LeaveRequests</code> - ObservableCollection of leave requests</li>
+                    <li><code>Employees</code> - ObservableCollection of employees</li>
+                    <li><code>SelectedLeaveRequest</code> - Currently selected leave request</li>
+                    <li><code>IsEditMode</code> - Whether edit form is visible</li>
+                </ul>
+            </div>
+
+            <h3>LeaveRequest Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key</li>
+                    <li><code>EmployeeId</code> - Foreign key to Employee</li>
+                    <li><code>StartDate</code>, <code>EndDate</code> - Leave period dates</li>
+                    <li><code>LeaveType</code> - Enum: Vacation, Sick, Personal, Maternity, Paternity, Unpaid</li>
+                    <li><code>Status</code> - Enum: Pending, Approved, Rejected</li>
+                    <li><code>Reason</code> - Optional reason text</li>
+                    <li><code>Employee</code> - Navigation property</li>
+                    <li><code>DaysRequested</code> - Computed property: calculates days between start and end</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="payroll" class="page-section">
+            <h2>7️⃣ PAYROLL PROCESSING PAGE <span class="emoji">💰</span></h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/PayrollView.xaml</code> - UI Layout</li>
+                    <li><code>Views/PayrollView.xaml.cs</code> - Code-behind (double-click, text changed handlers)</li>
+                    <li><code>ViewModels/PayrollViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/Payroll.cs</code> - Payroll Model</li>
+                    <li><code>Core/Employee.cs</code> - Employee Model</li>
+                    <li><code>Core/Attendance.cs</code> - Attendance Model (for bonus calculation)</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>Select Employee & Period:</strong> Choose employee, month, year</li>
+                    <li><strong>Calculate Payroll:</strong> 
+                        <ul>
+                            <li>Gets base salary from employee</li>
+                            <li>Calculates deductions (Tax Rate % + Insurance Rate %)</li>
+                            <li>Calculates bonuses (attendance days × Bonus per Day)</li>
+                            <li>Calculates net salary</li>
+                            <li>Saves to database</li>
+                        </ul>
+                    </li>
+                    <li><strong>Filter:</strong> Shows payrolls for selected month/year</li>
+                    <li><strong>Edit:</strong> Select payroll → Edit button → modify values</li>
+                    <li><strong>Recalculate:</strong> Recalculates based on current settings</li>
+                    <li><strong>Save/Delete:</strong> Saves changes or deletes record</li>
+                </ol>
+            </div>
+
+            <h3>Functions in PayrollViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">PayrollViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, sets default month/year to current, calls LoadData()</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadData()</div>
+                <div class="function-desc">Private: Loads payrolls with Employee navigation, orders by Year/Month descending, loads employees, calls FilterPayrolls()</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">FilterPayrolls()</div>
+                <div class="function-desc">Private: Filters payrolls by SelectedMonth and SelectedYear if FilterByMonthYear is true, otherwise shows all</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CalculatePayroll()</div>
+                <div class="function-desc">Command: Validates employee selected, checks for existing payroll for period, calculates BaseSalary, Deductions (TaxRate% + InsuranceRate%), Bonuses (attendance days × BonusPerDay), NetSalary. Creates and saves payroll record.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">EditPayroll()</div>
+                <div class="function-desc">Command: Validates selection and Id != 0, loads clean copy from DB using AsNoTracking() to avoid EF tracking, enables edit mode</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">RecalculatePayroll()</div>
+                <div class="function-desc">Command: Validates SelectedPayroll and EmployeeId, finds employee, recalculates BaseSalary, Deductions, Bonuses (from attendance), NetSalary, shows success message</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SavePayroll()</div>
+                <div class="function-desc">Command: Validates EmployeeId and Month (1-12), recalculates NetSalary. For new: creates clean entity. For update: reloads from DB using Find(), updates scalar properties only. Saves and refreshes.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeletePayroll()</div>
+                <div class="function-desc">Command: Shows confirmation, reloads from DB using Find(), removes it, refreshes list</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CancelEdit()</div>
+                <div class="function-desc">Command: Sets IsEditMode = false, clears selection, reloads data</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Payrolls</code> - ObservableCollection of all payroll records</li>
+                    <li><code>FilteredPayrolls</code> - ObservableCollection of filtered payrolls (by month/year)</li>
+                    <li><code>Employees</code> - Collection of employees</li>
+                    <li><code>SelectedPayroll</code> - Currently selected payroll</li>
+                    <li><code>SelectedEmployee</code> - Selected employee for calculation</li>
+                    <li><code>SelectedMonth</code> - Selected month (1-12, triggers FilterPayrolls)</li>
+                    <li><code>SelectedYear</code> - Selected year (2000-2100, triggers FilterPayrolls)</li>
+                    <li><code>FilterByMonthYear</code> - Toggle for filtering (triggers FilterPayrolls)</li>
+                    <li><code>IsEditMode</code> - Whether edit form is visible</li>
+                    <li><code>TaxRate</code> - Tax percentage (default: 10%)</li>
+                    <li><code>InsuranceRate</code> - Insurance percentage (default: 5%)</li>
+                    <li><code>BonusPerDay</code> - Bonus amount per full workday (default: $50)</li>
+                </ul>
+            </div>
+
+            <h3>Payroll Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key</li>
+                    <li><code>EmployeeId</code> - Foreign key to Employee</li>
+                    <li><code>Month</code>, <code>Year</code> - Payroll period</li>
+                    <li><code>BaseSalary</code> - Employee's base salary</li>
+                    <li><code>Deductions</code> - Total deductions (tax + insurance)</li>
+                    <li><code>Bonuses</code> - Total bonuses earned</li>
+                    <li><code>NetSalary</code> - Final salary (BaseSalary - Deductions + Bonuses)</li>
+                    <li><code>Employee</code> - Navigation property</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="user" class="page-section">
+            <h2>8️⃣ USER MANAGEMENT PAGE <span class="emoji">👤</span> (Admin Only)</h2>
+            
+            <h3>Files Used:</h3>
+            <div class="files-list">
+                <ul>
+                    <li><code>Views/UserManagementView.xaml</code> - UI Layout</li>
+                    <li><code>Views/UserManagementView.xaml.cs</code> - Code-behind</li>
+                    <li><code>ViewModels/UserManagementViewModel.cs</code> - Business Logic</li>
+                    <li><code>Core/User.cs</code> - User Model</li>
+                    <li><code>Data/AuthenticationService.cs</code> - Password hashing</li>
+                    <li><code>Data/HRDbContext.cs</code> - Database Access</li>
+                </ul>
+            </div>
+
+            <h3>How It Works:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>View Users:</strong> DataGrid shows all system users</li>
+                    <li><strong>Select User:</strong> Click Edit button → loads user into form</li>
+                    <li><strong>Add:</strong> Fill form → creates new user with hashed password</li>
+                    <li><strong>Update:</strong> Modify fields → updates user (password optional)</li>
+                    <li><strong>Delete:</strong> Removes user from system</li>
+                    <li><strong>Clear:</strong> Clears form</li>
+                </ol>
+            </div>
+
+            <h3>Functions in UserManagementViewModel.cs:</h3>
+            <div class="function-box">
+                <div class="function-name">UserManagementViewModel()</div>
+                <div class="function-desc">Constructor: Initializes database context, calls LoadUsers()</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">LoadUsers()</div>
+                <div class="function-desc">Private: Loads all users from database, orders by Username</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">AddUser()</div>
+                <div class="function-desc">Command: Validates all required fields, checks for duplicate username/email, creates User with hashed password using AuthenticationService.HashPassword(), saves, refreshes, clears form</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">UpdateUser()</div>
+                <div class="function-desc">Command: Validates required fields, checks duplicates (excluding current user), updates user properties. Updates password only if provided (otherwise keeps existing). Saves and refreshes.</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">DeleteUser()</div>
+                <div class="function-desc">Command: Shows confirmation, removes user from database, refreshes, clears form</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">SelectUser(User user)</div>
+                <div class="function-desc">Command: Loads user data into form fields for editing. Password field is cleared (not shown).</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ClearForm()</div>
+                <div class="function-desc">Command: Clears all form fields, resets SelectedUser, sets defaults (Role = HR, IsActive = true)</div>
+            </div>
+
+            <h3>Properties:</h3>
+            <div class="property-list">
+                <ul>
+                    <li><code>Users</code> - ObservableCollection of all users</li>
+                    <li><code>SelectedUser</code> - Currently selected user</li>
+                    <li><code>Username</code>, <code>Password</code>, <code>FullName</code>, <code>Email</code> - Form fields</li>
+                    <li><code>SelectedRole</code> - User role (Admin/HR)</li>
+                    <li><code>IsActive</code> - User active status</li>
+                    <li><code>UserRoles</code> - Array of available roles (enum values)</li>
+                </ul>
+            </div>
+
+            <h3>User Model Properties:</h3>
+            <div class="model-box">
+                <ul>
+                    <li><code>Id</code> - Primary key</li>
+                    <li><code>Username</code> - Unique username (max 50 chars, indexed)</li>
+                    <li><code>PasswordHash</code> - SHA-256 hashed password (Base64 string)</li>
+                    <li><code>FullName</code> - User's full name (max 100 chars)</li>
+                    <li><code>Email</code> - Unique email (max 200 chars, indexed)</li>
+                    <li><code>Role</code> - Enum: Admin or HR</li>
+                    <li><code>IsActive</code> - Account status (boolean)</li>
+                    <li><code>CreatedDate</code> - Account creation date</li>
+                    <li><code>LastLoginDate</code> - Last login timestamp (nullable)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="files" class="page-section">
+            <h2>📁 File Roles and Functions</h2>
+
+            <h3>CORE MODELS (HRManagementApp.Core/)</h3>
+            
+            <h4>Employee.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing an employee</p>
+                <p><strong>Properties:</strong> Id, FirstName, LastName, Email, Phone, HireDate, DepartmentId, Position, Salary</p>
+                <p><strong>Navigation Properties:</strong> Department, Attendances, LeaveRequests, Payrolls</p>
+                <p><strong>Computed Property:</strong> <code>FullName</code> - Returns "FirstName LastName"</p>
+            </div>
+
+            <h4>Department.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing a department</p>
+                <p><strong>Properties:</strong> Id, Name, Description, ManagerId</p>
+                <p><strong>Navigation Properties:</strong> Manager (Employee), Employees collection</p>
+            </div>
+
+            <h4>Attendance.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing attendance record</p>
+                <p><strong>Properties:</strong> Id, EmployeeId, Date, CheckIn, CheckOut, HoursWorked</p>
+                <p><strong>Navigation Property:</strong> Employee</p>
+            </div>
+
+            <h4>LeaveRequest.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing leave request</p>
+                <p><strong>Properties:</strong> Id, EmployeeId, StartDate, EndDate, LeaveType, Status, Reason</p>
+                <p><strong>Enums:</strong> <code>LeaveType</code> (Vacation, Sick, Personal, Maternity, Paternity, Unpaid)</p>
+                <p><strong>Enums:</strong> <code>LeaveStatus</code> (Pending, Approved, Rejected)</p>
+                <p><strong>Computed Property:</strong> <code>DaysRequested</code> - Calculates days between start and end</p>
+            </div>
+
+            <h4>Payroll.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing payroll record</p>
+                <p><strong>Properties:</strong> Id, EmployeeId, Month, Year, BaseSalary, Deductions, Bonuses, NetSalary</p>
+                <p><strong>Navigation Property:</strong> Employee</p>
+            </div>
+
+            <h4>User.cs</h4>
+            <div class="model-box">
+                <p><strong>Role:</strong> Domain model representing system user</p>
+                <p><strong>Properties:</strong> Id, Username, PasswordHash, FullName, Email, Role, IsActive, CreatedDate, LastLoginDate</p>
+                <p><strong>Enum:</strong> <code>UserRole</code> (Admin, HR)</p>
+            </div>
+
+            <h3>DATA LAYER (HRManagementApp.Data/)</h3>
+
+            <h4>HRDbContext.cs</h4>
+            <div class="function-box">
+                <div class="function-name">Role</div>
+                <div class="function-desc">Entity Framework database context - manages database connections and entity configurations</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">OnConfiguring(DbContextOptionsBuilder)</div>
+                <div class="function-desc">Configures SQLite connection string: "Data Source=HRDatabase.db"</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">OnModelCreating(ModelBuilder)</div>
+                <div class="function-desc">Configures entity relationships, constraints, indexes, delete behaviors, data types</div>
+            </div>
+
+            <h4>DbSets (Database Tables):</h4>
+            <div class="property-list">
+                <ul>
+                    <li><code>Users</code> - System users table</li>
+                    <li><code>Employees</code> - Employees table</li>
+                    <li><code>Departments</code> - Departments table</li>
+                    <li><code>Attendances</code> - Attendance records table</li>
+                    <li><code>LeaveRequests</code> - Leave requests table</li>
+                    <li><code>Payrolls</code> - Payroll records table</li>
+                </ul>
+            </div>
+
+            <h4>AuthenticationService.cs</h4>
+            <div class="function-box">
+                <div class="function-name">Login(string username, string password)</div>
+                <div class="function-desc">Finds user by username, hashes password, compares with stored hash, updates LastLoginDate, returns User or null</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">HashPassword(string password)</div>
+                <div class="function-desc">Static: Uses SHA256.Create(), converts password to UTF-8 bytes, computes hash, converts to Base64 string</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">CreateUser(string username, string password, string fullName, string email, UserRole role)</div>
+                <div class="function-desc">Checks for duplicate username/email, creates User with hashed password, saves to database, returns true/false</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ChangePassword(int userId, string oldPassword, string newPassword)</div>
+                <div class="function-desc">Finds user, validates old password hash, updates password hash, saves, returns true/false</div>
+            </div>
+
+            <h4>DatabaseInitializer.cs</h4>
+            <div class="function-box">
+                <div class="function-name">Initialize(HRDbContext context)</div>
+                <div class="function-desc">Static: Calls EnsureCreated() to create database, checks if already seeded, creates default users (admin/admin123, hr/hr123), creates 4 departments, creates 3 sample employees</div>
+            </div>
+
+            <h3>CONVERTERS (HRManagementApp/Converters/)</h3>
+
+            <h4>BoolToVisibilityConverter.cs</h4>
+            <div class="function-box">
+                <div class="function-name">Convert(object value, ...)</div>
+                <div class="function-desc">Converts bool to Visibility.Visible/Collapsed. Also handles string values (shows if not empty).</div>
+            </div>
+            <div class="function-box">
+                <div class="function-name">ConvertBack(object value, ...)</div>
+                <div class="function-desc">Converts Visibility back to bool (for two-way binding)</div>
+            </div>
+
+            <h3>APPLICATION ENTRY POINT</h3>
+
+            <h4>App.xaml.cs</h4>
+            <div class="function-box">
+                <div class="function-name">OnStartup(StartupEventArgs)</div>
+                <div class="function-desc">Called when app starts: Creates HRDbContext, calls DatabaseInitializer.Initialize(), shows LoginWindow</div>
+            </div>
+        </section>
+
+        <section id="dataflow" class="page-section">
+            <h2>🔄 Data Flow</h2>
+
+            <h3>Typical CRUD Operation Flow:</h3>
+            <div class="workflow">
+                <ol>
+                    <li><strong>User Action</strong> → Button Click / DataGrid Selection</li>
+                    <li><strong>Command Execution</strong> → ViewModel method called</li>
+                    <li><strong>Validation</strong> → Check input validity</li>
+                    <li><strong>Database Operation</strong> → EF Core query/update</li>
+                    <li><strong>Save Changes</strong> → <code>SaveChanges()</code> commits to database</li>
+                    <li><strong>Reload Data</strong> → Refresh collections from database</li>
+                    <li><strong>UI Update</strong> → ObservableCollection notifies UI automatically</li>
+                    <li><strong>User Feedback</strong> → Success/error message</li>
+                </ol>
+            </div>
+
+            <h3>Entity Framework Tracking Pattern:</h3>
+            <div class="pattern-box">
+                <p><strong>Problem:</strong> Entities loaded with <code>.Include()</code> have navigation properties that cause tracking conflicts</p>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>For <strong>Updates:</strong> Reload entity using <code>Find()</code> → Update scalar properties → Save</li>
+                    <li>For <strong>Deletes:</strong> Reload entity using <code>Find()</code> → Remove → Save</li>
+                    <li>For <strong>New Records:</strong> Create clean entity without navigation properties → Add → Save</li>
+                </ul>
+            </div>
+
+            <h3>Key Design Patterns Used:</h3>
+            <div class="pattern-box">
+                <ul>
+                    <li><strong>MVVM Pattern</strong> - Separation of UI and business logic</li>
+                    <li><strong>Repository Pattern</strong> - Database access through DbContext</li>
+                    <li><strong>Command Pattern</strong> - RelayCommand for button actions</li>
+                    <li><strong>Observer Pattern</strong> - ObservableCollection for UI updates</li>
+                    <li><strong>Singleton Pattern</strong> - Views created once in MainViewModel</li>
+                    <li><strong>Factory Pattern</strong> - DatabaseInitializer creates seed data</li>
+                </ul>
+            </div>
+
+            <h3>Security Features:</h3>
+            <div class="security-box">
+                <ul>
+                    <li><strong>Password Hashing:</strong> SHA-256 (no salt - limitation)</li>
+                    <li><strong>Role-Based Access:</strong> Admin vs HR permissions</li>
+                    <li><strong>Input Validation:</strong> Email format, required fields, duplicates</li>
+                    <li><strong>SQL Injection Prevention:</strong> Entity Framework parameterized queries</li>
+                    <li><strong>User Activation:</strong> IsActive flag for account control</li>
+                </ul>
+            </div>
+
+            <h3>Database Relationships:</h3>
+            <div class="model-box">
+                <pre>
+User (1) ──┐
+           │
+Employee (N) ── (1) Department (1) ── (N) Employee (Manager)
+   │
+   ├── (N) Attendance
+   ├── (N) LeaveRequest
+   └── (N) Payroll
+                </pre>
+                <p><strong>Cascade Rules:</strong></p>
+                <ul>
+                    <li>Delete Employee → Cascade delete Attendances, LeaveRequests, Payrolls</li>
+                    <li>Delete Department → SetNull Employee.DepartmentId</li>
+                    <li>Delete Employee (Manager) → SetNull Department.ManagerId</li>
+                </ul>
+            </div>
+        </section>
+
+        <a href="#" class="back-to-top">↑ Top</a>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
